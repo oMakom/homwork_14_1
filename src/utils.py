@@ -1,7 +1,7 @@
 import json
 import os
 
-from products import Category, Product
+from src.products import Category, Product
 
 
 def read_json_file(path: str) -> dict:
@@ -13,7 +13,7 @@ def read_json_file(path: str) -> dict:
 
 
 def create_from_json(data: dict):
-    """Читает словарь и заполняет по класам Category, Product """
+    """Читает словарь и заполняет по класам Category, Product"""
     categories = []
     for category in data:
         products = []
@@ -22,14 +22,3 @@ def create_from_json(data: dict):
         category["products"] = products
         categories.append(Category(**category))
     return categories
-
-
-if __name__ == "__main__":
-    # код для проверки
-    data_file = read_json_file("../data/products.json")
-    categories_data = create_from_json(data_file)
-    print(categories_data[0].name)
-    print(categories_data[0].products)
-
-    print(categories_data[1].name)
-    print(categories_data[1].products)
