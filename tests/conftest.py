@@ -24,7 +24,6 @@ def second_category():
         [
             Product("Samsung", "256GB", 180000.0, 5),
             Product("Iphone", "512GB", 210000.0, 8),
-            Product("Xiaomi", "1024GB", 31000.0, 14),
         ],
     )
 
