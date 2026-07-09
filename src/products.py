@@ -10,6 +10,10 @@ class Product:
         self.price = price
         self.quantity = quantity
 
+    @classmethod
+    def new_product(cls, product_dict: dict):
+        return cls(**product_dict)
+
 
 class Category:
     name: str
@@ -35,3 +39,4 @@ class Category:
     def add_product(self, product):
         self.__products.append(product)
         Category.product_count += 1
+
