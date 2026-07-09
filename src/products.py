@@ -36,7 +36,14 @@ class Category:
             products_string += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
         return products_string
 
-    def add_product(self, product):
-        self.__products.append(product)
+    def add_product(self, product_add: Product):
+        for product in self.__products:
+            if product.name == product_add.name:
+                if product.price < product_add.price:
+                    product.price = product_add.price
+                product.quantity += product_add.quantity
+                return True
+        self.__products.append(product_add)
         Category.product_count += 1
+        return True
 
