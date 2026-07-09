@@ -59,7 +59,7 @@ class Category:
                 if product.price < product_add.price:
                     product.price = product_add.price
                 product.quantity += product_add.quantity
-                return True
+                return
         self.__products.append(product_add)
         Category.product_count += 1
-        return True
+        return

@@ -67,5 +67,5 @@ def test_add_new_product():
     category_new_product = Category("Телефоны", "Все телефоны")
     p_new_product = Product("Samsung", "256GB", 180000.0, 5)
     result = category_new_product.add_product(p_new_product)
-    assert result is True
+    assert result is None
     assert len(category_new_product.products.splitlines()) == 1
