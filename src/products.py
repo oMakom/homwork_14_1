@@ -20,9 +20,13 @@ class Product:
 
     @price.setter
     def price(self, new_price: float):
-        if new_price < 0:
-            print("Цена не должна быть нулевая или отрицательная")
-        self.__price = new_price
+        if new_price < self.__price:
+            if new_price <= 0:
+                print("Цена не должна быть нулевая или отрицательная")
+            else:
+                is_the_price_lower = input(f"Цена уменьшается с {self.__price} на {new_price} Уверены что хотите снизить цену? (y/n)").lower()
+                if is_the_price_lower == "y":
+                    self.__price = new_price
 
 
 class Category:
