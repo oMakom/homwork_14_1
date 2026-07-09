@@ -29,7 +29,8 @@ class Product:
                 ).lower()
                 if is_the_price_lower == "y":
                     self.__price = new_price
-
+        else:
+            self.__price = new_price
 
 class Category:
     name: str
