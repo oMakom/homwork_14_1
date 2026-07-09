@@ -24,7 +24,9 @@ class Product:
             if new_price <= 0:
                 print("Цена не должна быть нулевая или отрицательная")
             else:
-                is_the_price_lower = input(f"Цена уменьшается с {self.__price} на {new_price} Уверены что хотите снизить цену? (y/n)").lower()
+                is_the_price_lower = input(
+                    f"Цена уменьшается с {self.__price} на {new_price} Уверены что хотите снизить цену? (y/n)"
+                ).lower()
                 if is_the_price_lower == "y":
                     self.__price = new_price
 
@@ -60,4 +62,3 @@ class Category:
         self.__products.append(product_add)
         Category.product_count += 1
         return True
-
