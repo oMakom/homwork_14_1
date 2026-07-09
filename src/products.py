@@ -14,13 +14,21 @@ class Product:
 class Category:
     name: str
     description: str
-    products: list
+    __products: list
     category_count: int = 0
     product_count: int = 0
 
     def __init__(self, name, description, products=None):
         self.name = name
         self.description = description
-        self.products = products if products is not None else []
+        self.__products = products if products is not None else []
         Category.product_count += len(products) if products else 0
         Category.category_count += 1
+
+    @property
+    def products(self):
+        return self.__products
+
+    def add_product(self, product):
+        self.__products.append(product)
+        Category.product_count += 1
