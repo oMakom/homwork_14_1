@@ -27,7 +27,10 @@ class Category:
 
     @property
     def products(self):
-        return self.__products
+        products_string = ""
+        for product in self.__products:
+            products_string += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
+        return products_string
 
     def add_product(self, product):
         self.__products.append(product)
