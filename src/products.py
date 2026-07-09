@@ -7,18 +7,28 @@ class Product:
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
 
     @classmethod
     def new_product(cls, product_dict: dict):
         return cls(**product_dict)
 
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self, new_price: float):
+        if new_price < 0:
+            print("Цена не должна быть нулевая или отрицательная")
+        self.__price = new_price
+
 
 class Category:
     name: str
     description: str
-    __products: list
+    products: list
     category_count: int = 0
     product_count: int = 0
 
