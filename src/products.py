@@ -54,10 +54,7 @@ class Category:
         Category.category_count += 1
 
     def __str__(self):
-        count = 0
-        for product in self.__products:
-            count += product.quantity
-        return f"{self.name}, количество продуктов: {count} шт."
+        return f"{self.name}, количество продуктов: {sum(product.quantity for product in self.__products)} шт."
 
     @property
     def products(self):
