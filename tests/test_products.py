@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from src.products import Category, Product
+from src.products import Category, CategoryProductIterator, Product
 
 
 def test_product_init(first_product):
@@ -91,3 +91,14 @@ def test_str_Category(first_category):
     """Проверяем коректность строкового отображения категорий"""
     category = first_category
     assert str(category) == "Телефоны, количество продуктов: 27 шт."
+
+
+def tets_CategoryProductIterator(first_product):
+    """Проверяем коректность вывода списка товаров класса"""
+    pit = (Product("Samsung", "256GB", 180000.0, 5),)
+    pit2 = (Product("Iphone", "512GB", 210000.0, 8),)
+    pit3 = Product("Xiaomi", "1024GB", 31000.0, 14)
+    category_iterator = CategoryProductIterator(first_product)
+    assert next(category_iterator) == pit
+    assert next(category_iterator) == pit2
+    assert next(category_iterator) == pit3
