@@ -50,6 +50,12 @@ class Category:
         Category.product_count += len(products) if products else 0
         Category.category_count += 1
 
+    def __str__(self):
+        count = 0
+        for product in self.__products:
+            count += product.quantity
+        return f"{self.name}, количество продуктов: {count} шт."
+
     @property
     def products(self):
         products_string = ""
