@@ -46,7 +46,7 @@ class Category:
     category_count: int = 0
     product_count: int = 0
 
-    def __init__(self, name, description, products=None):
+    def __init__(self, name, description, products: list[Product] | None = None):
         self.name = name
         self.description = description
         self.__products = products if products is not None else []
@@ -73,3 +73,22 @@ class Category:
         self.__products.append(product_add)
         Category.product_count += 1
         return
+
+
+class CategoryProductIterator:
+    """класс, с помощью которого можно перебирать товары одной категории"""
+
+    def __init__(self, category_iter: Category):
+        #  Итерируется по приватному списку объектов (category._Category__products)
+        self.products_iter = category_iter._Category__products
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index >= len(self.products_iter):
+            raise StopIteration
+        product = self.products_iter[self.index]
+        self.index += 1
+        return product
