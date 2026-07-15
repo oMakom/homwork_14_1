@@ -10,6 +10,12 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self):
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        return self.quantity * self.price + other.quantity * other.price
+
     @classmethod
     def new_product(cls, product_dict: dict):
         return cls(**product_dict)
@@ -32,6 +38,7 @@ class Product:
         else:
             self.__price = new_price
 
+
 class Category:
     name: str
     description: str
@@ -39,18 +46,21 @@ class Category:
     category_count: int = 0
     product_count: int = 0
 
-    def __init__(self, name, description, products=None):
+    def __init__(self, name, description, products: list[Product] | None = None):
         self.name = name
         self.description = description
         self.__products = products if products is not None else []
         Category.product_count += len(products) if products else 0
         Category.category_count += 1
 
+    def __str__(self):
+        return f"{self.name}, количество продуктов: {sum(product.quantity for product in self.__products)} шт."
+
     @property
     def products(self):
         products_string = ""
         for product in self.__products:
-            products_string += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
+            products_string += f"{str(product)}\n"
         return products_string
 
     def add_product(self, product_add: Product):
@@ -63,3 +73,22 @@ class Category:
         self.__products.append(product_add)
         Category.product_count += 1
         return
+
+
+class CategoryProductIterator:
+    """класс, с помощью которого можно перебирать товары одной категории"""
+
+    def __init__(self, category_iter: Category):
+        #  Итерируется по приватному списку объектов (category._Category__products)
+        self.products_iter = category_iter._Category__products
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index >= len(self.products_iter):
+            raise StopIteration
+        product = self.products_iter[self.index]
+        self.index += 1
+        return product
