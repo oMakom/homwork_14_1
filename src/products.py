@@ -67,6 +67,8 @@ class Category:
         return products_string
 
     def add_product(self, product_add: Product):
+        if not isinstance(product_add, Product):
+            raise TypeError
         for product in self.__products:
             if product.name == product_add.name:
                 if product.price < product_add.price:
