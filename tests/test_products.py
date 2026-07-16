@@ -1,5 +1,7 @@
 from unittest.mock import patch
 
+import pytest
+
 from src.products import Category, CategoryProductIterator, Product
 
 
@@ -75,11 +77,23 @@ def test_add_new_product():
     assert len(category_new_product.products.splitlines()) == 1
 
 
+def test_error_add_new_product(smartphone_category):
+    """Проверка? что при добавлении не смартфонов, травы газонной или других продуктов вызывается TypeError"""
+    with pytest.raises(TypeError):
+        smartphone_category.add_product("Not a product")
+
+
 def test_add_sum_product():
     """Проверяем коректность суммы стоимости 2х продуктов"""
     p = Product("Samsung", "256GB", 180000.0, 5)
     p2 = Product("Lenovo", "128GB", 60000.0, 10)
     assert p + p2 == 180000.0 * 5 + 60000.0 * 10
+
+
+def test_error_add_sum_product(first_product_smartphone, first_product_grass):
+    """Проверяем ошибки суммы стоимости 2х разных продуктов"""
+    with pytest.raises(TypeError):
+        first_product_smartphone + first_product_grass
 
 
 def test_str_product(first_product):
