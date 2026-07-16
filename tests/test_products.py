@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from src.products import Category, CategoryProductIterator, Product, Order
+from src.products import Category, CategoryProductIterator, Order, Product
 
 
 def test_product_init(first_product):
@@ -109,7 +109,7 @@ def test_str_Category(first_category):
 
 def test_CategoryProductIterator(first_category):
     """Проверяем коректность вывода списка товаров класса"""
-    pit = Product('Samsung', '256GB', 180000.0, 5)
+    pit = Product("Samsung", "256GB", 180000.0, 5)
     pit2 = Product("Iphone", "512GB", 210000.0, 8)
     pit3 = Product("Xiaomi", "1024GB", 31000.0, 14)
     category_iterator = CategoryProductIterator(first_category)
@@ -121,6 +121,7 @@ def test_CategoryProductIterator(first_category):
 def test_PrintMixin(capsys):
     """Проверяем коректность вывода сообщения при инициализации продуктов"""
     pit = Product("Samsung", "256GB", 180000.0, 5)
+    str(pit)
     captured = capsys.readouterr()
     expected = "Product('Samsung', '256GB', 180000.0, 5)\n"
     assert captured.out == expected
@@ -140,14 +141,14 @@ def test_order_creation():
 
 
 def test_add_product_wrong_type():
-    """ Ошибка при добавлении не продукта"""
+    """Ошибка при добавлении не продукта"""
     order = Order(105)
     with pytest.raises(TypeError):
         order.add_product("not a product")
 
 
 def test_add_product_allows_duplicates_by_name():
-    """ Проверка добавления товара с токим же именем """
+    """Проверка добавления товара с токим же именем"""
     p1 = Product("Xiaomi", "1024GB", 31000.0, 14)
     p2 = Product("Xiaomi", "Pro", 35000.0, 2)
 
