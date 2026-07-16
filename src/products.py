@@ -72,7 +72,19 @@ class Product(ABC, PrintMixin):
             self.__price = new_price
 
 
-class Category:
+class CatalogEntity(ABC):
+    @abstractmethod
+    def __str__(self):
+        """Вывод Иформации о классе и его содержимом"""
+        pass
+
+    @abstractmethod
+    def add_product(self, product_add: Product):
+        """Добавление продуктов в класс"""
+        pass
+
+
+class Category(CatalogEntity):
     name: str
     description: str
     products: list
@@ -110,7 +122,7 @@ class Category:
         return
 
 
-class Order:
+class Order(CatalogEntity):
     order_id: int
     description: str
     products: list[Product]
@@ -122,7 +134,9 @@ class Order:
         self.product_count = len(self.__products) if products else 0
 
     def __str__(self):
-        return f"Заказ №{self.order_id}, количество продуктов: {sum(product.quantity for product in self.__products)} шт."
+        return (
+            f"Заказ №{self.order_id}, количество продуктов: {sum(product.quantity for product in self.__products)} шт."
+        )
 
     def add_product(self, product_add: Product):
         if not isinstance(product_add, Product):
