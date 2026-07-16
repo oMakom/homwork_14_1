@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from src.products import Category, CategoryProductIterator, Product
+from src.products import Category, CategoryProductIterator, Product, Order
 
 
 def test_product_init(first_product):
@@ -124,3 +124,38 @@ def test_PrintMixin(capsys):
     captured = capsys.readouterr()
     expected = "Product('Samsung', '256GB', 180000.0, 5)\n"
     assert captured.out == expected
+
+
+def test_order_creation():
+    p1 = Product("Samsung", "256GB", 180000.0, 5)
+    p2 = Product("Iphone", "512GB", 210000.0, 8)
+    order = Order(102, [p1, p2])
+
+    assert order.order_id == 102
+    assert len(order.products) == 2
+    assert order.products[0] is p1
+    assert order.products[1] is p2
+    assert order.product_count == 2  # теперь это корректно
+    assert str(order) == "Заказ №102, количество продуктов: 13 шт."
+
+
+def test_add_product_wrong_type():
+    """ Ошибка при добавлении не продукта"""
+    order = Order(105)
+    with pytest.raises(TypeError):
+        order.add_product("not a product")
+
+
+def test_add_product_allows_duplicates_by_name():
+    """ Проверка добавления товара с токим же именем """
+    p1 = Product("Xiaomi", "1024GB", 31000.0, 14)
+    p2 = Product("Xiaomi", "Pro", 35000.0, 2)
+
+    order = Order(104, [p1])
+    order.add_product(p2)
+
+    assert len(order.products) == 2
+    assert order.products[0] is p1
+    assert order.products[1] is p2
+    assert order.product_count == 2
+    assert str(order) == "Заказ №104, количество продуктов: 16 шт."
