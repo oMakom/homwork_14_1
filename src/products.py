@@ -110,6 +110,32 @@ class Category:
         return
 
 
+class Order:
+    order_id: int
+    description: str
+    products: list[Product]
+    product_count: int
+
+    def __init__(self, order_id, products: list[Product] | None = None):
+        self.order_id = order_id
+        self.__products = products if products is not None else []
+        self.product_count = len(self.__products) if products else 0
+
+    def __str__(self):
+        return f"Заказ №{self.order_id}, количество продуктов: {sum(product.quantity for product in self.__products)} шт."
+
+    def add_product(self, product_add: Product):
+        if not isinstance(product_add, Product):
+            raise TypeError
+        self.__products.append(product_add)
+        self.product_count += 1
+        return
+
+    @property
+    def products(self):
+        return self.__products
+
+
 class CategoryProductIterator:
     """класс, с помощью которого можно перебирать товары одной категории"""
 
