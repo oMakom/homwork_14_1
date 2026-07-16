@@ -107,12 +107,20 @@ def test_str_Category(first_category):
     assert str(category) == "Телефоны, количество продуктов: 27 шт."
 
 
-def tets_CategoryProductIterator(first_product):
+def test_CategoryProductIterator(first_category):
     """Проверяем коректность вывода списка товаров класса"""
-    pit = (Product("Samsung", "256GB", 180000.0, 5),)
-    pit2 = (Product("Iphone", "512GB", 210000.0, 8),)
+    pit = Product('Samsung', '256GB', 180000.0, 5)
+    pit2 = Product("Iphone", "512GB", 210000.0, 8)
     pit3 = Product("Xiaomi", "1024GB", 31000.0, 14)
-    category_iterator = CategoryProductIterator(first_product)
-    assert next(category_iterator) == pit
-    assert next(category_iterator) == pit2
-    assert next(category_iterator) == pit3
+    category_iterator = CategoryProductIterator(first_category)
+    assert str(next(category_iterator)) == str(pit)
+    assert str(next(category_iterator)) == str(pit2)
+    assert str(next(category_iterator)) == str(pit3)
+
+
+def test_PrintMixin(capsys):
+    """Проверяем коректность вывода сообщения при инициализации продуктов"""
+    pit = Product("Samsung", "256GB", 180000.0, 5)
+    captured = capsys.readouterr()
+    expected = "Product('Samsung', '256GB', 180000.0, 5)\n"
+    assert captured.out == expected

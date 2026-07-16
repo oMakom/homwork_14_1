@@ -1,6 +1,6 @@
 import pytest
 
-from src.product_types import Smartphone, LawnGrass
+from src.product_types import LawnGrass, Smartphone
 from src.products import Category, Product
 
 
