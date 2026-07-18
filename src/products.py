@@ -1,4 +1,33 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class BaseProduct(ABC):
+
+    @abstractmethod
+    def __str__(self) -> str:
+        """Информация о продукте"""
+        pass
+
+    @abstractmethod
+    def __add__(self, other) -> float:
+        """Вывод общей цены продуктов"""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def new_product(cls, product_dict: dict):
+        pass
+
+
+class PrintMixin:
+    def __init__(self):
+        print(repr(self))
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}('{self.name}', '{self.description}', {self.price}, {self.quantity})"
+
+
+class Product(ABC, PrintMixin):
     name: str
     description: str
     price: float
@@ -9,6 +38,7 @@ class Product:
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__()
 
     def __str__(self):
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
@@ -21,6 +51,7 @@ class Product:
 
     @classmethod
     def new_product(cls, product_dict: dict):
+        """Создает новый продукт из словаря."""
         return cls(**product_dict)
 
     @property
@@ -42,7 +73,19 @@ class Product:
             self.__price = new_price
 
 
-class Category:
+class CatalogEntity(ABC):
+    @abstractmethod
+    def __str__(self):
+        """Вывод Иформации о классе и его содержимом"""
+        pass
+
+    @abstractmethod
+    def add_product(self, product_add: Product):
+        """Добавление продуктов в класс"""
+        pass
+
+
+class Category(CatalogEntity):
     name: str
     description: str
     products: list
@@ -78,6 +121,34 @@ class Category:
         self.__products.append(product_add)
         Category.product_count += 1
         return
+
+
+class Order(CatalogEntity):
+    order_id: int
+    description: str
+    products: list[Product]
+    product_count: int
+
+    def __init__(self, order_id, products: list[Product] | None = None):
+        self.order_id = order_id
+        self.__products = products if products is not None else []
+        self.product_count = len(self.__products) if products else 0
+
+    def __str__(self):
+        return (
+            f"Заказ №{self.order_id}, количество продуктов: {sum(product.quantity for product in self.__products)} шт."
+        )
+
+    def add_product(self, product_add: Product):
+        if not isinstance(product_add, Product):
+            raise TypeError
+        self.__products.append(product_add)
+        self.product_count += 1
+        return
+
+    @property
+    def products(self):
+        return self.__products
 
 
 class CategoryProductIterator:

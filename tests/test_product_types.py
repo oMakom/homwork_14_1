@@ -1,5 +1,3 @@
-
-
 def test_smartphone_init(first_product_smartphone):
     """Проверка корректности создания"""
     assert first_product_smartphone.efficiency == 95.5
