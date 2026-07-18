@@ -4,12 +4,12 @@ from abc import ABC, abstractmethod
 class BaseProduct(ABC):
 
     @abstractmethod
-    def __str__(self):
+    def __str__(self) -> str:
         """Информация о продукте"""
         pass
 
     @abstractmethod
-    def __add__(self, other):
+    def __add__(self, other) -> float:
         """Вывод общей цены продуктов"""
         pass
 
@@ -51,6 +51,7 @@ class Product(ABC, PrintMixin):
 
     @classmethod
     def new_product(cls, product_dict: dict):
+        """Создает новый продукт из словаря."""
         return cls(**product_dict)
 
     @property
