@@ -37,7 +37,10 @@ class Product(ABC, PrintMixin):
         self.name = name
         self.description = description
         self.__price = price
-        self.quantity = quantity
+        if quantity > 0:
+            self.quantity = quantity
+        else:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         super().__init__()
 
     def __str__(self):
@@ -121,6 +124,15 @@ class Category(CatalogEntity):
         self.__products.append(product_add)
         Category.product_count += 1
         return
+
+    def middle_price(self):
+        """метод, который подсчитывает средний ценник всех товаров"""
+        try:
+            catalog_middle_price = round(sum((product.price/product.quantity) for product in self.__products)/len(self.__products), 2)
+        except ZeroDivisionError:
+            catalog_middle_price = 0
+        return catalog_middle_price
+
 
 
 class Order(CatalogEntity):
