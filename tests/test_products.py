@@ -160,3 +160,11 @@ def test_add_product_allows_duplicates_by_name():
     assert order.products[1] is p2
     assert order.product_count == 2
     assert str(order) == "Заказ №104, количество продуктов: 16 шт."
+
+
+def product_invalid():
+    """Ошибка добавления товара с нулевым количеством"""
+    with pytest.raises(ValueError) as e:
+        product_test = Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+
+    assert str(e.info) == "Товар с нулевым количеством не может быть добавлен"
