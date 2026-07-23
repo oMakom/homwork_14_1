@@ -128,11 +128,12 @@ class Category(CatalogEntity):
     def middle_price(self):
         """метод, который подсчитывает средний ценник всех товаров"""
         try:
-            catalog_middle_price = round(sum((product.price/product.quantity) for product in self.__products)/len(self.__products), 2)
+            catalog_middle_price = round(
+                sum((product.price / product.quantity) for product in self.__products) / len(self.__products), 2
+            )
         except ZeroDivisionError:
             catalog_middle_price = 0
         return catalog_middle_price
-
 
 
 class Order(CatalogEntity):

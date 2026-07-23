@@ -170,7 +170,7 @@ def test_product_invalid():
 
 def test_middle_price(first_category):
     """Проверка корректности подсчета среднего ценника всех товаров"""
-    assert  Category.middle_price(first_category) == 21488.1
+    assert Category.middle_price(first_category) == 21488.1
 
 
 def test_middle_price_ZeroDivisionError():
