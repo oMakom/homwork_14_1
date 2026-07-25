@@ -160,3 +160,21 @@ def test_add_product_allows_duplicates_by_name():
     assert order.products[1] is p2
     assert order.product_count == 2
     assert str(order) == "Заказ №104, количество продуктов: 16 шт."
+
+
+def test_product_invalid():
+    """Ошибка добавления товара с нулевым количеством"""
+    with pytest.raises(ValueError) as e:
+        product_test = Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+
+
+def test_middle_price(first_category):
+    """Проверка корректности подсчета среднего ценника всех товаров"""
+    assert Category.middle_price(first_category) == 21488.1
+
+
+def test_middle_price_ZeroDivisionError():
+    """Ошибка, если 0 продуктов в категории (средняя цена приравнивается нулю)"""
+    category_empty = Category("Пустая категория", "Категория без продуктов", [])
+
+    assert Category.middle_price(category_empty) == 0
